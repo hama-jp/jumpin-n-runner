@@ -1,4 +1,4 @@
-# JumpBox
+# Jumpin' N Runner
 
 HTML5 Canvas を使用したブラウザゲームです。障害物を飛び越えながら生き残る 2D プラットフォーマーゲームです。
 
