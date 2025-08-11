@@ -2,6 +2,8 @@
 
 An HTML5 Canvas browser game where you survive by jumping over obstacles in this 2D platformer.
 
+🎮 **[Play Now!](https://hama-jp.github.io/jumpin-n-runner/)**
+
 [日本語 README](README.md)
 
 ## 🎮 Game Features

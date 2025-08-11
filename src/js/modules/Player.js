@@ -8,13 +8,13 @@ class Player {
         this.velocityY = 0;
         this.jumping = false;
         this.jumpPower = -12;
-        this.gravity = 0.6;
+        this.gravity = 0.35;
         this.color = '#FF6B6B';
         this.rotation = 0;
         this.isCharging = false;
         this.chargeTime = 0;
-        this.minJumpPower = -6;   // 最小ジャンプ（低い障害物用）
-        this.maxJumpPower = -22;  // 最大ジャンプ（高い障害物用、1.5倍の高さ）
+        this.minJumpPower = -6;   // 最小ジャンプ（元の値に戻す）
+        this.maxJumpPower = -16.5;  // 最大ジャンプ（0.75倍に調整）
         this.chargeColor = '#FF6B6B';
     }
 
