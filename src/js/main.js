@@ -18,3 +18,10 @@ function toggleSound() {
         game.toggleSound();
     }
 }
+
+// ゲーム再開用のグローバル関数
+async function restartGame() {
+    if (game) {
+        await game.start();
+    }
+}

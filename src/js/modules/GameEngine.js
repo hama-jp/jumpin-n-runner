@@ -172,13 +172,16 @@ class GameEngine {
             localStorage.setItem('highScore', this.highScore);
         }
 
-        this.overlay.innerHTML = `
-            <h1 class="gameTitle">ゲームオーバー</h1>
-            <p class="gameText">スコア: ${this.score}</p>
-            <p class="gameText" style="color: #FFD700;">ハイスコア: ${this.highScore}</p>
-            <button class="button" onclick="game.start()">もう一度プレイ</button>
-        `;
-        this.overlay.classList.add('show');
+        // ゲームオーバー画面を少し遅延して表示（音響効果が再生されるまで）
+        setTimeout(() => {
+            this.overlay.innerHTML = `
+                <h1 class="gameTitle">ゲームオーバー</h1>
+                <p class="gameText">スコア: ${this.score}</p>
+                <p class="gameText" style="color: #FFD700;">ハイスコア: ${this.highScore}</p>
+                <button class="button" onclick="restartGame()">もう一度プレイ</button>
+            `;
+            this.overlay.classList.add('show');
+        }, 500);
     }
 
     // サウンド切り替え
