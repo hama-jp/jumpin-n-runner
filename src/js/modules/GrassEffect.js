@@ -9,16 +9,31 @@ class GrassEffect {
     // 草パーティクルの生成
     createGrassParticle() {
         // 画面の右端から少し外側で生成
+        const y = this.canvas.height - 100 + Math.random() * 50; // 地面付近でランダムな高さ
+        
+        // Y座標に基づいて奥行きを計算（下に行くほど手前）
+        const groundLevel = this.canvas.height - 100; // 地面レベル
+        const maxDepth = 50; // 最大奥行き範囲
+        const depthRatio = Math.max(0, (y - groundLevel) / maxDepth); // 0(奥) to 1(手前)
+        
+        // 奥行きに応じて速度を調整
+        // 手前（下側）ほど速く、奥（キャラクター付近）はゲーム速度と同じくらい
+        const baseSpeedMultiplier = 0.8 + (depthRatio * 1.5); // 0.8倍から2.3倍
+        
+        // 奥行きに応じてサイズも調整
+        const sizeMultiplier = 0.5 + (depthRatio * 0.8); // 奥は小さく、手前は大きく
+        
         const grassParticle = {
             x: this.canvas.width + 10,
-            y: this.canvas.height - 100 + Math.random() * 30, // 地面付近でランダムな高さ
-            width: 3 + Math.random() * 2, // 幅のバリエーション
-            height: 8 + Math.random() * 6, // 高さのバリエーション
-            speed: 2 + Math.random() * 1, // 基本速度にランダム性
-            color: `hsl(${100 + Math.random() * 30}, ${60 + Math.random() * 20}%, ${35 + Math.random() * 15}%)`, // 緑系の色
-            alpha: 0.6 + Math.random() * 0.3, // 透明度のバリエーション
-            swayOffset: Math.random() * Math.PI * 2, // 揺れのオフセット
-            swaySpeed: 0.1 + Math.random() * 0.05 // 揺れ速度
+            y: y,
+            width: (2 + Math.random() * 3) * sizeMultiplier,
+            height: (6 + Math.random() * 8) * sizeMultiplier,
+            speed: baseSpeedMultiplier, // ゲーム速度との掛け合わせ用
+            depthRatio: depthRatio, // 後で使用
+            color: `hsl(${95 + Math.random() * 35}, ${50 + Math.random() * 30}%, ${25 + Math.random() * 20}%)`,
+            alpha: (0.3 + Math.random() * 0.4) * (0.6 + depthRatio * 0.4), // 手前ほど濃く
+            swayOffset: Math.random() * Math.PI * 2,
+            swaySpeed: (0.08 + Math.random() * 0.04) * (1 - depthRatio * 0.3) // 奥ほどゆっくり揺れる
         };
         
         this.grassParticles.push(grassParticle);
@@ -38,7 +53,8 @@ class GrassEffect {
 
         // 草パーティクルの更新
         this.grassParticles = this.grassParticles.filter(grass => {
-            // ゲームスピードと個別スピードを掛け合わせて移動
+            // 奥行きによる速度差を適用
+            // 手前（下側）はより速く、キャラクター付近はゲーム速度と同程度
             grass.x -= gameSpeed * grass.speed;
             
             // 揺れ効果
