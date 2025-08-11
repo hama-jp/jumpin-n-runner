@@ -26,7 +26,7 @@ class GameEngine {
         this.background.draw(this.ctx, 0);
         this.background.drawGround(this.ctx);
         this.player.draw(this.ctx, this.particleSystem);
-        this.highScoreDisplay.textContent = `ハイスコア: ${this.highScore}`;
+        this.highScoreDisplay.textContent = `High Score: ${this.highScore}`;
     }
 
     // ゲーム開始
@@ -52,7 +52,7 @@ class GameEngine {
         this.background.reset();
 
         this.overlay.classList.remove('show');
-        this.highScoreDisplay.textContent = `ハイスコア: ${this.highScore}`;
+        this.highScoreDisplay.textContent = `High Score: ${this.highScore}`;
 
         // BGMを停止してから再開（確実にリスタートさせる）
         this.audioSystem.stopBGM();
@@ -82,7 +82,7 @@ class GameEngine {
 
         // スコアの更新
         this.score++;
-        this.scoreDisplay.textContent = `スコア: ${this.score}`;
+        this.scoreDisplay.textContent = `Score: ${this.score}`;
 
         // 速度上昇と難易度上昇
         this.speedIncreaseTimer++;
@@ -175,10 +175,10 @@ class GameEngine {
         // ゲームオーバー画面を少し遅延して表示（音響効果が再生されるまで）
         setTimeout(() => {
             this.overlay.innerHTML = `
-                <h1 class="gameTitle">ゲームオーバー</h1>
-                <p class="gameText">スコア: ${this.score}</p>
-                <p class="gameText" style="color: #FFD700;">ハイスコア: ${this.highScore}</p>
-                <button class="button" onclick="restartGame()">もう一度プレイ</button>
+                <h1 class="gameTitle">Game Over</h1>
+                <p class="gameText">Score: ${this.score}</p>
+                <p class="gameText" style="color: #FFD700;">High Score: ${this.highScore}</p>
+                <button class="button" onclick="restartGame()">Play Again</button>
             `;
             this.overlay.classList.add('show');
         }, 500);
