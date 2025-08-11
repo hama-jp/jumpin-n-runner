@@ -1,4 +1,4 @@
-# Jumping Platform Runner
+# JumpBox
 
 An HTML5 Canvas browser game where you survive by jumping over obstacles in this 2D platformer.
 
