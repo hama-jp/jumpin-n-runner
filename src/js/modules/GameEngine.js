@@ -10,7 +10,7 @@ class GameEngine {
         this.gameRunning = false;
         this.score = 0;
         this.highScore = localStorage.getItem('highScore') || 0;
-        this.gameSpeed = 3;
+        this.gameSpeed = 1.5;
         this.speedIncreaseTimer = 0;
         this.difficultyLevel = 0;
 
@@ -38,7 +38,7 @@ class GameEngine {
 
         this.gameRunning = true;
         this.score = 0;
-        this.gameSpeed = 3;
+        this.gameSpeed = 1.5;
         this.speedIncreaseTimer = 0;
         this.difficultyLevel = 0;
         

@@ -8,13 +8,13 @@ class Player {
         this.velocityY = 0;
         this.jumping = false;
         this.jumpPower = -12;
-        this.gravity = 0.5;
+        this.gravity = 0.6;
         this.color = '#FF6B6B';
         this.rotation = 0;
         this.isCharging = false;
         this.chargeTime = 0;
         this.minJumpPower = -6;   // 最小ジャンプ（低い障害物用）
-        this.maxJumpPower = -15;  // 最大ジャンプ（高い障害物用）
+        this.maxJumpPower = -22;  // 最大ジャンプ（高い障害物用、1.5倍の高さ）
         this.chargeColor = '#FF6B6B';
     }
 
@@ -48,7 +48,7 @@ class Player {
         
         // チャージ中のエフェクト
         if (this.isCharging) {
-            const chargeRatio = Math.min(this.chargeTime / 30, 1);
+            const chargeRatio = Math.min(this.chargeTime / 10, 1);
             const glowSize = 5 + chargeRatio * 15;
             const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, glowSize);
             gradient.addColorStop(0, `hsla(${60 - chargeRatio * 60}, 100%, 60%, ${0.3 + chargeRatio * 0.3})`);
@@ -59,7 +59,7 @@ class Player {
         
         // 本体（チャージに応じて色を変化）
         if (this.isCharging) {
-            const chargeRatio = Math.min(this.chargeTime / 30, 1);
+            const chargeRatio = Math.min(this.chargeTime / 10, 1);
             const hue = 60 - chargeRatio * 60; // 黄色から赤へ
             this.chargeColor = `hsl(${hue}, 70%, 60%)`;
             ctx.fillStyle = this.chargeColor;
@@ -95,7 +95,7 @@ class Player {
         
         // チャージインジケーター（足元に表示）
         if (this.isCharging && !this.jumping) {
-            const chargeRatio = Math.min(this.chargeTime / 30, 1);
+            const chargeRatio = Math.min(this.chargeTime / 10, 1);
             const barWidth = this.width * chargeRatio;
             
             // バーの背景
@@ -145,11 +145,12 @@ class Player {
     executeJump(audioSystem) {
         if (!this.jumping) {
             if (this.isCharging) {
-                // チャージ時間に応じてジャンプ力を計算（0～30フレームを0～1に正規化）
-                const chargeRatio = Math.min(this.chargeTime / 30, 1);
+                // チャージ時間に応じてジャンプ力を計算（0～10フレームを0～1に正規化）
+                const chargeRatio = Math.min(this.chargeTime / 10, 1);
                 
                 // ジャンプ力を計算（最小から最大まで）
-                this.velocityY = this.minJumpPower - (this.maxJumpPower - this.minJumpPower) * chargeRatio;
+                // chargeRatio が 0 なら minJumpPower(-6)、1 なら maxJumpPower(-15)
+                this.velocityY = this.minJumpPower + (this.maxJumpPower - this.minJumpPower) * chargeRatio;
                 
                 this.jumping = true;
                 this.isCharging = false;

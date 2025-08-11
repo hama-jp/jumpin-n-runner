@@ -3,7 +3,7 @@ class ObstacleManager {
         this.canvas = canvas;
         this.obstacles = [];
         this.obstacleTimer = 0;
-        this.baseObstacleInterval = 100;  // 初期の障害物間隔（広め）
+        this.baseObstacleInterval = 400;  // 初期の障害物間隔（4倍に拡大）
         this.obstacleRandomness = 20;     // 初期のランダム性（小さめ）
     }
 
@@ -64,19 +64,20 @@ class ObstacleManager {
         this.obstacles.push(obstacle);
         
         // 時々連続障害物を生成（難易度が上がると確率が上がる）
-        if (difficultyLevel > 4 && Math.random() < 0.2 + (difficultyLevel * 0.02)) {
+        if (difficultyLevel > 6 && Math.random() < 0.1 + (difficultyLevel * 0.01)) {
             setTimeout(() => {
-                const secondType = Math.random() < 0.7 ? 'spike' : 'box';
+                // 連続障害物は低い障害物のみ（spikesのみ）にして攻略可能にする
+                const secondType = 'spike';
                 this.obstacles.push({
-                    x: this.canvas.width,
-                    y: secondType === 'spike' ? this.canvas.height - 115 : this.canvas.height - 135,
-                    width: secondType === 'spike' ? 25 : 30,
-                    height: secondType === 'spike' ? 15 : 35,
+                    x: this.canvas.width + 150, // より間隔を空ける
+                    y: this.canvas.height - 115,
+                    width: 25,
+                    height: 15,
                     type: secondType,
-                    color: secondType === 'spike' ? '#F44336' : '#FF9800',
+                    color: '#F44336',
                     scored: false
                 });
-            }, 400);
+            }, 800); // より長い間隔
         }
     }
 
@@ -156,7 +157,7 @@ class ObstacleManager {
     reset() {
         this.obstacles = [];
         this.obstacleTimer = 0;
-        this.baseObstacleInterval = 100;
+        this.baseObstacleInterval = 400;  // 初期の障害物間隔（4倍に拡大）
         this.obstacleRandomness = 20;
     }
 
