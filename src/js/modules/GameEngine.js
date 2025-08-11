@@ -20,6 +20,7 @@ class GameEngine {
         this.obstacleManager = new ObstacleManager(this.canvas);
         this.particleSystem = new ParticleSystem();
         this.background = new Background(this.canvas);
+        this.grassEffect = new GrassEffect(this.canvas);
         this.inputHandler = new InputHandler(this.canvas, this);
 
         // 初期表示
@@ -50,6 +51,7 @@ class GameEngine {
         this.obstacleManager.reset();
         this.particleSystem.clear();
         this.background.reset();
+        this.grassEffect.reset();
 
         this.overlay.classList.remove('show');
         this.highScoreDisplay.textContent = `High Score: ${this.highScore}`;
@@ -79,6 +81,7 @@ class GameEngine {
 
         this.player.update();
         this.obstacleManager.update(this.gameSpeed, this.difficultyLevel, this.player, this.audioSystem);
+        this.grassEffect.update(this.gameSpeed);
 
         // スコアの更新
         this.score++;
@@ -114,6 +117,8 @@ class GameEngine {
         this.obstacleManager.draw(this.ctx);
         this.particleSystem.update(this.ctx);
         this.player.draw(this.ctx, this.particleSystem);
+        // 草エフェクトは最前面に描画してスピード感を演出
+        this.grassEffect.draw(this.ctx);
     }
 
     // ジャンプチャージ開始
