@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ジャンピングプラットフォームランナー</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
+        <div id="scoreDisplay">スコア: 0</div>
+        <div id="highScoreDisplay">ハイスコア: 0</div>
+        <button id="soundToggle" onclick="toggleSound()">🔊</button>
+        
+        <div id="gameOverlay" class="show">
+            <h1 class="gameTitle">ジャンピングプラットフォームランナー</h1>
+            <p class="gameText">障害物を飛び越えて生き残ろう！</p>
+            <p class="gameText" style="font-size: 18px;">長押しで高くジャンプ、短押しで低くジャンプ</p>
+            <p class="gameText" style="font-size: 16px; opacity: 0.8;">スペースキー/クリック/タップで操作</p>
+            <button class="button" onclick="initAndStart()">ゲームスタート</button>
+            <p class="loadingText" id="loadingText" style="display: none;">サウンド読み込み中...</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="src/js/modules/AudioSystem.js"></script>
+    <script src="src/js/modules/Player.js"></script>
+    <script src="src/js/modules/Obstacle.js"></script>
+    <script src="src/js/modules/ParticleSystem.js"></script>
+    <script src="src/js/modules/Background.js"></script>
+    <script src="src/js/modules/InputHandler.js"></script>
+    <script src="src/js/modules/GameEngine.js"></script>
+    <script src="src/js/main.js"></script>
+</body>
+</html>
