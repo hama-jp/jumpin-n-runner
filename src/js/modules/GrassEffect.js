@@ -3,7 +3,7 @@ class GrassEffect {
         this.canvas = canvas;
         this.grassParticles = [];
         this.spawnTimer = 0;
-        this.baseSpawnRate = 8; // フレーム間隔でスポーン頻度を制御
+        this.baseSpawnRate = 1; // フレーム間隔でスポーン頻度を制御（毎フレーム判定で8倍の量）
     }
 
     // 草パーティクルの生成
@@ -26,8 +26,9 @@ class GrassEffect {
         const grassParticle = {
             x: this.canvas.width + 10,
             y: y,
-            width: (2 + Math.random() * 3) * sizeMultiplier,
+            bladeWidth: Math.max(1, Math.round(1 * sizeMultiplier)), // 草の葉の幅（最小1px）
             height: (6 + Math.random() * 8) * sizeMultiplier,
+            bladeCount: Math.floor(2 + Math.random() * 3), // 2-4本の草
             speed: baseSpeedMultiplier, // ゲーム速度との掛け合わせ用
             depthRatio: depthRatio, // 後で使用
             color: `hsl(${95 + Math.random() * 35}, ${50 + Math.random() * 30}%, ${25 + Math.random() * 20}%)`,
@@ -44,8 +45,8 @@ class GrassEffect {
         // スポーン制御
         this.spawnTimer++;
         if (this.spawnTimer >= this.baseSpawnRate) {
-            // ランダムでスポーンするかどうかを決める（50%の確率）
-            if (Math.random() < 0.5) {
+            // ランダムでスポーンするかどうかを決める（80%の確率に上昇）
+            if (Math.random() < 0.8) {
                 this.createGrassParticle();
             }
             this.spawnTimer = 0;
@@ -72,26 +73,34 @@ class GrassEffect {
             
             // 透明度設定
             ctx.globalAlpha = grass.alpha;
+            ctx.fillStyle = grass.color;
             
             // 揺れ効果の計算
-            const swayAmount = Math.sin(grass.swayOffset) * 2;
+            const swayAmount = Math.sin(grass.swayOffset) * 1.5;
             
-            // 草の描画（簡単な縦線）
-            ctx.fillStyle = grass.color;
-            ctx.fillRect(
-                grass.x + swayAmount, 
-                grass.y, 
-                grass.width, 
-                grass.height
-            );
-            
-            // より草らしく見せるために上部を少し細くする
-            ctx.fillRect(
-                grass.x + swayAmount + grass.width * 0.2, 
-                grass.y - grass.height * 0.3, 
-                grass.width * 0.6, 
-                grass.height * 0.4
-            );
+            // 複数の草の葉を描画 (|| や ||| のような表現)
+            for (let i = 0; i < grass.bladeCount; i++) {
+                const bladeOffset = i * (grass.bladeWidth + 1); // 葉の間隔
+                const individualSway = swayAmount + Math.sin(grass.swayOffset + i * 0.5) * 0.5; // 各葉で微妙に違う揺れ
+                
+                // メインの草の葉
+                ctx.fillRect(
+                    grass.x + bladeOffset + individualSway,
+                    grass.y,
+                    grass.bladeWidth,
+                    grass.height
+                );
+                
+                // 上部をやや短くして自然な形に
+                if (grass.height > 8) {
+                    ctx.fillRect(
+                        grass.x + bladeOffset + individualSway,
+                        grass.y - grass.height * 0.2,
+                        grass.bladeWidth,
+                        grass.height * 0.3
+                    );
+                }
+            }
             
             ctx.restore();
         });
