@@ -1,116 +1,116 @@
 # Jumpin' N Runner
 
-HTML5 Canvas を使用したブラウザゲームです。障害物を飛び越えながら生き残る 2D プラットフォーマーゲームです。
+An HTML5 Canvas browser game where you survive by jumping over obstacles in this 2D platformer.
 
-🎮 **[今すぐプレイ！](https://hama-jp.github.io/jumpin-n-runner/)**
+🎮 **[Play Now!](https://hama-jp.github.io/jumpin-n-runner/)**
 
-[English README](README_EN.md)
+[日本語 README](README_JA.md)
 
-## 🎮 ゲームの特徴
+## 🎮 Game Features
 
-- **可変ジャンプシステム**: 長押しで高いジャンプ、短押しで低いジャンプが可能
-- **プログレッシブ難易度**: 時間経過とともに速度と難易度が上昇
-- **手続き的オーディオ**: Tone.js を使用したリアルタイム音響効果
-- **マルチデバイス対応**: キーボード、マウス、タッチ操作に対応
-- **視覚エフェクト**: パーティクルシステムによる豊富な視覚効果
+- **Variable Jump System**: Long press for high jumps, short press for low jumps
+- **Progressive Difficulty**: Speed and complexity increase over time
+- **Procedural Audio**: Real-time sound effects using Tone.js
+- **Multi-Device Support**: Keyboard, mouse, and touch controls
+- **Visual Effects**: Rich particle system for enhanced gameplay
 
-## 🚀 プレイ方法
+## 🚀 How to Play
 
-1. `index.html` をブラウザで開く
-2. 「ゲームスタート」ボタンをクリック
-3. 操作方法：
-   - **PC**: スペースキー または マウスクリック
-   - **モバイル**: 画面タップ
-   - **短押し**: 低いジャンプ（小さな障害物用）
-   - **長押し**: 高いジャンプ（高い障害物用）
+1. Open `index.html` in your web browser
+2. Click "Let's Roll!" button
+3. Controls:
+   - **PC**: Spacebar or Mouse Click
+   - **Mobile**: Screen Tap
+   - **Short Press**: Low jump (for small obstacles)
+   - **Long Press**: High jump (for tall obstacles)
 
-## 🏗️ プロジェクト構造
+## 🏗️ Project Structure
 
 ```
-├── index.html                    # メインHTMLファイル
+├── index.html                    # Main HTML file
 ├── src/
 │   ├── css/
-│   │   └── styles.css           # スタイルシート
+│   │   └── styles.css           # Stylesheet
 │   └── js/
-│       ├── main.js              # エントリーポイント
+│       ├── main.js              # Entry point
 │       └── modules/
-│           ├── AudioSystem.js    # 音響システム
-│           ├── Background.js     # 背景描画
-│           ├── GameEngine.js     # ゲームエンジン
-│           ├── InputHandler.js   # 入力処理
-│           ├── Obstacle.js       # 障害物管理
-│           ├── ParticleSystem.js # パーティクル効果
-│           └── Player.js         # プレイヤー制御
+│           ├── AudioSystem.js    # Sound effects and BGM
+│           ├── Background.js     # Parallax background
+│           ├── GameEngine.js     # Core game loop
+│           ├── InputHandler.js   # Input processing
+│           ├── Obstacle.js       # Obstacle management
+│           ├── ParticleSystem.js # Visual effects
+│           └── Player.js         # Player character logic
 └── assets/
-    └── audio/                   # 将来の音声ファイル用
+    └── audio/                   # Reserved for future audio files
 ```
 
-## 🛠️ 技術スタック
+## 🛠️ Technology Stack
 
-- **HTML5 Canvas**: グラフィック描画
-- **Vanilla JavaScript**: ES6+ クラス構文使用
-- **Tone.js**: Web Audio API による音響生成
-- **CSS3**: レスポンシブデザインとアニメーション
+- **HTML5 Canvas**: Graphics rendering
+- **Vanilla JavaScript**: ES6+ class syntax
+- **Tone.js**: Web Audio API sound generation
+- **CSS3**: Responsive design and animations
 
-## 🎵 音響システム
+## 🎵 Audio System
 
-- BGM: 4小節の手続き的音楽パターン
-- 効果音: プレイヤーのアクションに応じた動的音響効果
-  - ジャンプ音: チャージ量に応じて3段階
-  - ポイント獲得音
-  - スピードアップ音
-  - ゲームオーバー音
+- BGM: 4-measure procedural music pattern
+- Sound Effects: Dynamic audio responding to player actions
+  - Jump sounds: 3 levels based on charge amount
+  - Point acquisition sound
+  - Speed up sound
+  - Game over sound
 
-## 📱 対応ブラウザ
+## 📱 Browser Support
 
 - Chrome 60+
 - Firefox 55+
 - Safari 13+
 - Edge 79+
 
-## 🔧 開発者向け情報
+## 🔧 Developer Information
 
-### ゲーム実行
+### Running the Game
 ```bash
-# ローカルサーバーを起動（推奨）
+# Start local server (recommended)
 python -m http.server 8000
-# または
+# or
 npx serve .
 
-# ブラウザで http://localhost:8000 を開く
+# Open http://localhost:8000 in browser
 ```
 
-### 新機能追加
-1. `src/js/modules/` に新しいモジュールを作成
-2. `index.html` にスクリプト参照を追加
-3. `GameEngine` クラスで初期化とゲームループに統合
+### Adding New Features
+1. Create new module in `src/js/modules/`
+2. Add script reference to `index.html`
+3. Initialize in `GameEngine` class and integrate with game loop
 
-### デバッグ
-- ブラウザの開発者ツールを使用
-- `CLAUDE.md` に詳細な開発ガイダンスを記載
+### Debugging
+- Use browser developer tools
+- See `CLAUDE.md` for detailed development guidance
 
-## 🎯 ゲームルール
+## 🎯 Game Rules
 
-- **スコア**: 時間経過とともに自動増加
-- **障害物**: 3種類（ボックス、スパイク、高い障害物）
-- **難易度**: 300フレームごとに速度上昇
-- **衝突判定**: 障害物に触れるとゲームオーバー
-- **ハイスコア**: LocalStorage に保存
+- **Score**: Automatically increases over time
+- **Obstacles**: 3 types (box, spike, tall obstacle)
+- **Difficulty**: Speed increases every 300 frames
+- **Collision**: Game over when touching obstacles
+- **High Score**: Saved in LocalStorage
 
-## 🤝 コントリビューション
+## 🤝 Contributing
 
-1. リポジトリをフォーク
-2. 機能ブランチを作成 (`git checkout -b feature/新機能`)
-3. 変更をコミット (`git commit -am '新機能を追加'`)
-4. ブランチにプッシュ (`git push origin feature/新機能`)
-5. プルリクエストを作成
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/new-feature`)
+3. Commit changes (`git commit -am 'Add new feature'`)
+4. Push to branch (`git push origin feature/new-feature`)
+5. Create Pull Request
 
-## 📄 ライセンス
+## 📄 License
 
-このプロジェクトは MIT ライセンスの下で公開されています。
+This project is released under the MIT License.
 
-## 🙏 謝辞
+## 🙏 Acknowledgments
 
-- [Tone.js](https://tonejs.github.io/) - Web Audio API ライブラリ
+- [Tone.js](https://tonejs.github.io/) - Web Audio API library
 - HTML5 Canvas API
 - Modern JavaScript ES6+ features
