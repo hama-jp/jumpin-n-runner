@@ -2,7 +2,7 @@ class Player {
     constructor(canvas) {
         this.canvas = canvas;
         this.x = 100;
-        this.y = 200;
+        this.y = canvas.height - 100 - 40;  // 地面レベルから40px（プレイヤーの高さ）上
         this.width = 40;
         this.height = 40;
         this.velocityY = 0;
@@ -16,18 +16,45 @@ class Player {
         this.minJumpPower = -6;   // 最小ジャンプ（元の値に戻す）
         this.maxJumpPower = -16.5;  // 最大ジャンプ（0.75倍に調整）
         this.chargeColor = '#FF6B6B';
+        
+        // コヨーテタイム・ジャンプバッファ機能
+        this.coyoteTime = 0;         // 地面を離れてからの時間（フレーム）
+        this.coyoteTimeMax = 9;      // 150ms @ 60fps (9フレーム)
+        this.jumpBuffer = 0;         // ジャンプ入力のバッファ時間
+        this.jumpBufferMax = 6;      // 100ms @ 60fps (6フレーム)
+        this.onGround = false;       // 地面にいるかどうか
     }
 
     update() {
         this.velocityY += this.gravity;
         this.y += this.velocityY;
         
-        // 地面との衝突
-        if (this.y > this.canvas.height - 140) {
-            this.y = this.canvas.height - 140;
+        // 前フレームの地面状態を保存
+        const wasOnGround = this.onGround;
+        
+        // 地面との衝突（地面は canvas.height - 100 から始まる）
+        const groundLevel = this.canvas.height - 100;
+        if (this.y + this.height > groundLevel) {
+            this.y = groundLevel - this.height;
             this.velocityY = 0;
             this.jumping = false;
             this.rotation = 0;
+            this.onGround = true;
+            this.coyoteTime = 0; // 地面にいる間はコヨーテタイムをリセット
+        } else {
+            this.onGround = false;
+        }
+        
+        // コヨーテタイム更新（地面を離れた場合）
+        if (wasOnGround && !this.onGround && !this.jumping) {
+            this.coyoteTime = 0; // 地面を離れた瞬間からカウント開始
+        } else if (!this.onGround && this.coyoteTime < this.coyoteTimeMax) {
+            this.coyoteTime++;
+        }
+        
+        // ジャンプバッファ時間の更新
+        if (this.jumpBuffer > 0) {
+            this.jumpBuffer--;
         }
         
         // チャージ中の処理

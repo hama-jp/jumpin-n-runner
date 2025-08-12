@@ -9,6 +9,7 @@ class AudioSystem {
         this.jumpSynth = null;
         this.gameOverSynth = null;
         this.pointSynth = null;
+        this.powerupSynth = null;
         this.speedUpSynth = null;
         
         this.loadingText = document.getElementById('loadingText');
@@ -70,6 +71,18 @@ class AudioSystem {
             }
         }).toDestination();
         this.pointSynth.volume.value = -12;
+        
+        // パワーアップ音用シンセ
+        this.powerupSynth = new Tone.Synth({
+            oscillator: { type: "sawtooth" },
+            envelope: {
+                attack: 0.01,
+                decay: 0.1,
+                sustain: 0.3,
+                release: 0.2
+            }
+        }).toDestination();
+        this.powerupSynth.volume.value = -10;
         
         // スピードアップ音用シンセ
         this.speedUpSynth = new Tone.PolySynth(Tone.Synth, {
@@ -188,6 +201,21 @@ class AudioSystem {
             setTimeout(() => {
                 this.pointSynth.triggerAttackRelease("C6", "16n");
             }, 30);
+        }
+    }
+
+    // パワーアップ収集音
+    playPowerupSound() {
+
+        if (this.soundEnabled && this.powerupSynth) {
+
+            this.powerupSynth.triggerAttackRelease("C5", "8n");
+            setTimeout(() => {
+                this.powerupSynth.triggerAttackRelease("E5", "8n");
+            }, 80);
+            setTimeout(() => {
+                this.powerupSynth.triggerAttackRelease("G5", "4n");
+            }, 160);
         }
     }
     
