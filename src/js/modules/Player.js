@@ -2,7 +2,7 @@ class Player {
     constructor(canvas) {
         this.canvas = canvas;
         this.x = 100;
-        this.y = 200;
+        this.y = canvas.height - 100 - 40;  // 地面レベルから40px（プレイヤーの高さ）上
         this.width = 40;
         this.height = 40;
         this.velocityY = 0;
@@ -32,9 +32,10 @@ class Player {
         // 前フレームの地面状態を保存
         const wasOnGround = this.onGround;
         
-        // 地面との衝突
-        if (this.y > this.canvas.height - 140) {
-            this.y = this.canvas.height - 140;
+        // 地面との衝突（地面は canvas.height - 100 から始まる）
+        const groundLevel = this.canvas.height - 100;
+        if (this.y + this.height > groundLevel) {
+            this.y = groundLevel - this.height;
             this.velocityY = 0;
             this.jumping = false;
             this.rotation = 0;

@@ -4,6 +4,7 @@ let game;
 // ページ読み込み完了後にゲームを初期化
 document.addEventListener('DOMContentLoaded', () => {
     game = new GameEngine();
+    window.game = game; // グローバルアクセス用
 });
 
 // グローバル関数（HTMLから呼び出される）
